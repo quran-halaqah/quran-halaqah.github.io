@@ -5,7 +5,9 @@
     var isTaken = !!row.presenter;
     var cardClass = isTaken ? "is-taken" : "is-available";
     var badge = isTaken ? "✓ تم اختياره" : "+ متاح";
-    var presenterText = row.presenter || "بانتظار من يختاره";
+    var presenterHtml = row.presenter
+      ? '<p class="darss-card-presenter">' + row.presenter + "</p>"
+      : "";
 
     return (
       '<div class="darss-card ' +
@@ -17,9 +19,7 @@
       '<p class="darss-card-name">' +
       row.sahabi +
       "</p>" +
-      '<p class="darss-card-presenter">' +
-      presenterText +
-      "</p>" +
+      presenterHtml +
       "</div>"
     );
   }
@@ -29,6 +29,9 @@
       return res.json();
     })
     .then(function (data) {
-      grid.innerHTML = data.rows.map(cardHtml).join("");
+      var rows = data.rows.slice().sort(function (a, b) {
+        return !!a.presenter - !!b.presenter;
+      });
+      grid.innerHTML = rows.map(cardHtml).join("");
     });
 })();
