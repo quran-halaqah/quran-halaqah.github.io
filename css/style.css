@@ -444,67 +444,79 @@ button.btn.btn-primary:hover {
 }
 
 /* ============================
-   جدول الدرس
+   بطاقات الدرس
 ============================ */
-.darss-table-wrap {
-  overflow-x: auto;
+.darss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
   margin-top: 24px;
 }
 
-table.darss-table {
-  width: 100%;
-  border-collapse: collapse;
+.darss-card {
+  position: relative;
   background: var(--surface);
   border-radius: var(--radius);
-  overflow: hidden;
   box-shadow: var(--shadow);
+  border: 2px solid var(--border);
+  padding: 28px 18px 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-table.darss-table th,
-table.darss-table td {
-  padding: 12px 16px;
-  text-align: right;
-  border-bottom: 1px solid var(--border);
+.darss-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
 }
 
-table.darss-table th {
-  background: var(--bg-alt);
-  color: var(--accent-dark);
+.darss-card-badge {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 14px;
+  font-size: 0.72rem;
   font-weight: 700;
-  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
-table.darss-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-table.darss-table tbody tr.is-next {
-  background: rgba(200, 162, 74, 0.1);
-}
-
-.status-tick {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  font-size: 0.9rem;
-}
-
-.status-tick.done {
-  background: rgba(47, 111, 79, 0.15);
+.darss-card-name {
+  font-size: 1.2rem;
+  font-weight: 700;
   color: var(--accent-dark);
+  line-height: 1.5;
+  margin: 8px 0 10px;
 }
 
-.status-tick.pending {
+.darss-card-presenter {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.darss-card.is-taken {
   background: var(--bg-alt);
+  border-style: dashed;
+  border-color: var(--border);
+}
+
+.darss-card.is-taken .darss-card-name {
   color: var(--text-muted);
 }
 
-.status-tick.next {
-  background: rgba(200, 162, 74, 0.2);
+.darss-card.is-taken .darss-card-badge {
+  color: var(--text-muted);
+}
+
+.darss-card.is-available {
+  background: rgba(47, 111, 79, 0.1);
+  border-color: var(--accent);
+}
+
+.darss-card.is-available .darss-card-badge {
   color: var(--accent-dark);
+}
+
+.darss-card.is-available .darss-card-presenter {
+  font-style: italic;
 }
 
 /* ============================

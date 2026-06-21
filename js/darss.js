@@ -1,35 +1,26 @@
 (function () {
-  var tbody = document.getElementById("darss-rows");
+  var grid = document.getElementById("darss-table");
 
-  var statusInfo = {
-    done: { icon: "✓", label: "تم" },
-    next: { icon: "●", label: "القادم" },
-    pending: { icon: "—", label: "لم يحدَّد" },
-  };
-
-  function rowHtml(row) {
-    var info = statusInfo[row.status] || statusInfo.pending;
-    var rowClass = row.status === "next" ? ' class="is-next"' : "";
+  function cardHtml(row) {
+    var isTaken = !!row.presenter;
+    var cardClass = isTaken ? "is-taken" : "is-available";
+    var badge = isTaken ? "✓ تم اختياره" : "+ متاح";
+    var presenterText = row.presenter || "بانتظار من يختاره";
 
     return (
-      "<tr" +
-      rowClass +
-      ">" +
-      "<td>" +
-      row.sahabi +
-      "</td>" +
-      "<td>" +
-      '<span class="status-tick ' +
-      row.status +
+      '<div class="darss-card ' +
+      cardClass +
       '">' +
-      info.icon +
-      "</span> " +
-      info.label +
-      "</td>" +
-      "<td>" +
-      (row.presenter || "—") +
-      "</td>" +
-      "</tr>"
+      '<span class="darss-card-badge">' +
+      badge +
+      "</span>" +
+      '<p class="darss-card-name">' +
+      row.sahabi +
+      "</p>" +
+      '<p class="darss-card-presenter">' +
+      presenterText +
+      "</p>" +
+      "</div>"
     );
   }
 
@@ -38,6 +29,6 @@
       return res.json();
     })
     .then(function (data) {
-      tbody.innerHTML = data.rows.map(rowHtml).join("");
+      grid.innerHTML = data.rows.map(cardHtml).join("");
     });
 })();
