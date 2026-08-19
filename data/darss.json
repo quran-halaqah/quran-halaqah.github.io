@@ -27,8 +27,8 @@
     },
     {
       "sahabi": "أبو الدرداء رضي الله عنه",
-      "status": "pending",
-      "presenter": ""
+      "status": "done",
+      "presenter": "أحد الإخوة"
     },
     {
       "sahabi": "أبو موسى الأشعري رضي الله عنه",
@@ -52,8 +52,8 @@
     },
     {
       "sahabi": "فضالة بن عبيد رضي الله عنه",
-      "status": "pending",
-      "presenter": ""
+      "status": "done",
+      "presenter": "أحد الإخوة"
     },
     {
       "sahabi": "واثلة بن الأسقع رضي الله عنه",
@@ -62,13 +62,13 @@
     },
     {
       "sahabi": "عبد الله بن السائب رضي الله عنه",
-      "status": "pending",
-      "presenter": ""
+      "status": "done",
+      "presenter": "أحد الإخوة"
     },
     {
       "sahabi": "عبد الله بن أبي عياش رضي الله عنه",
-      "status": "pending",
-      "presenter": ""
+      "status": "done",
+      "presenter": "أحد الإخوة"
     }
   ]
 }

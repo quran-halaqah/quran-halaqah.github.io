@@ -2,11 +2,13 @@
   var grid = document.getElementById("darss-table");
 
   function cardHtml(row) {
-    var isTaken = !!row.presenter;
+    var isDone = row.status === "done";
+    var isTaken = isDone || !!row.presenter;
     var cardClass = isTaken ? "is-taken" : "is-available";
-    var badge = isTaken ? "✓ تم اختياره" : "+ متاح";
-    var presenterHtml = row.presenter
-      ? '<p class="darss-card-presenter">' + row.presenter + "</p>"
+    var badge = isDone ? "✓ تم إنجازه" : isTaken ? "✓ تم اختياره" : "+ متاح";
+    var presenterText = row.presenter || (isDone ? "انتهى الدرس" : "");
+    var presenterHtml = presenterText
+      ? '<p class="darss-card-presenter">' + presenterText + "</p>"
       : "";
 
     return (

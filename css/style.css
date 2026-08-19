@@ -453,6 +453,10 @@ button.btn.btn-primary:hover {
   margin-top: 24px;
 }
 
+.darss-section {
+  margin-top: 34px;
+}
+
 .darss-card {
   position: relative;
   background: var(--surface);

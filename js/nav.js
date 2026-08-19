@@ -7,7 +7,7 @@
   var links = [
     { id: "home", href: "/index.html", label: "الرئيسية" },
     { id: "ghareeb", href: "/ghareeb/index.html", label: "غريب القرآن" },
-    { id: "darss", href: "/darss/index.html", label: "الدرس" },
+    { id: "darss", href: "/darss/index.html", label: "الدروس" },
   ];
 
   var navHtml = links
@@ -36,7 +36,7 @@
 
   var footerHtml =
     '<footer class="site-footer"><div class="container">' +
-    "<p>حلقة القرآن الكريم &mdash; غريب القرآن والدرس</p>" +
+    "<p>حلقة القرآن الكريم &mdash; غريب القرآن والدروس</p>" +
     "</div></footer>";
 
   var headerMount = document.getElementById("site-header");
