@@ -7,7 +7,53 @@
     return (text || "").replace(/[ً-ٰٟ]/g, "");
   }
 
-  function wordItemHtml(word, index) {
+  function correctionReportUrl(surah, word, index) {
+    var entryUrl =
+      window.location.origin +
+      "/ghareeb/" +
+      surah.page +
+      "#word-" +
+      (index + 1);
+    var title =
+      "[تصحيح غريب القرآن] سورة " +
+      surah.name_ar +
+      "، الآية " +
+      word.ayah +
+      " — " +
+      word.word;
+    var body =
+      "السلام عليكم، أود الإبلاغ عن تصحيح محتمل في غريب القرآن.\n\n" +
+      "- السورة: " +
+      surah.name_ar +
+      " (" +
+      surah.number +
+      ")\n" +
+      "- الآية: " +
+      word.ayah +
+      "\n" +
+      "- الكلمة الحالية: " +
+      word.word +
+      "\n" +
+      "- المعنى الحالي: " +
+      word.meaning +
+      "\n" +
+      "- الرابط: " +
+      entryUrl +
+      "\n\n" +
+      "## التصحيح المقترح\n\n" +
+      "اكتب التصحيح هنا.\n\n" +
+      "## الملاحظات أو المصدر\n\n" +
+      "أضف ما يساعد على التحقق من التصحيح.";
+
+    return (
+      "https://github.com/quran-halaqah/quran-halaqah.github.io/issues/new?title=" +
+      encodeURIComponent(title) +
+      "&body=" +
+      encodeURIComponent(body)
+    );
+  }
+
+  function wordItemHtml(word, index, surah) {
     return (
       '<li class="word-item" id="word-' +
       (index + 1) +
@@ -18,9 +64,18 @@
       '<div class="meaning">' +
       word.meaning +
       "</div>" +
+      '<div class="word-meta">' +
       '<span class="ayah-ref">الآية ' +
       word.ayah +
       "</span>" +
+      '<a class="correction-report" href="' +
+      correctionReportUrl(surah, word, index) +
+      '" target="_blank" rel="noopener noreferrer" title="الإبلاغ عن خطأ" aria-label="الإبلاغ عن خطأ في ' +
+      word.word +
+      '">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 21V4m0 1h11l-2 3 2 3H5"/></svg>' +
+      "</a>" +
+      "</div>" +
       "</li>"
     );
   }
@@ -43,22 +98,38 @@
       listEl.parentNode.insertBefore(searchBox, listEl);
 
       var words = surah.words;
-      listEl.innerHTML = words.map(wordItemHtml).join("");
+      listEl.innerHTML = words
+        .map(function (word, index) {
+          return wordItemHtml(word, index, surah);
+        })
+        .join("");
 
       document.getElementById("surah-search").addEventListener("input", function (e) {
         var q = normalize(e.target.value.trim());
         if (!q) {
-          listEl.innerHTML = words.map(wordItemHtml).join("");
+          listEl.innerHTML = words
+            .map(function (word, index) {
+              return wordItemHtml(word, index, surah);
+            })
+            .join("");
           return;
         }
-        var filtered = words.filter(function (w, i) {
-          return (
-            normalize(w.word).indexOf(q) !== -1 ||
-            normalize(w.meaning).indexOf(q) !== -1
-          );
-        });
+        var filtered = words
+          .map(function (word, index) {
+            return { word: word, index: index };
+          })
+          .filter(function (item) {
+            return (
+              normalize(item.word.word).indexOf(q) !== -1 ||
+              normalize(item.word.meaning).indexOf(q) !== -1
+            );
+          });
         listEl.innerHTML = filtered.length
-          ? filtered.map(wordItemHtml).join("")
+          ? filtered
+              .map(function (item) {
+                return wordItemHtml(item.word, item.index, surah);
+              })
+              .join("")
           : '<li class="word-item"><p class="empty-state">لا توجد نتائج.</p></li>';
       });
 

@@ -234,14 +234,54 @@ h1 {
   color: var(--text);
 }
 
+.word-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
 .word-item .ayah-ref {
   display: inline-block;
-  margin-top: 8px;
   font-size: 0.85rem;
   color: var(--text-muted);
   background: var(--bg-alt);
   border-radius: 999px;
   padding: 2px 12px;
+}
+
+.correction-report {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  border-radius: 50%;
+  opacity: 0.55;
+  transition: color 0.15s, background-color 0.15s, opacity 0.15s;
+}
+
+.correction-report svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.correction-report:hover,
+.correction-report:focus-visible {
+  color: var(--accent-dark);
+  background: var(--bg-alt);
+  opacity: 1;
+  outline: none;
+}
+
+.correction-report:focus-visible {
+  box-shadow: 0 0 0 2px rgba(47, 111, 79, 0.2);
 }
 
 /* ============================
