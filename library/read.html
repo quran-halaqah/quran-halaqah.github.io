@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قراءة كتاب | المكتبة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="library" class="book-reader-page">
+  <div id="site-header"></div>
+
+  <main class="book-reader-main">
+    <div class="container reader-container">
+      <div id="reader-content">
+        <div class="reader-toolbar">
+          <div class="reader-title">
+            <a class="reader-back" href="/library/index.html" aria-label="العودة إلى المكتبة">→</a>
+            <div>
+              <h1 id="reader-book-title">الكتاب</h1>
+              <p id="reader-book-subtitle"></p>
+            </div>
+          </div>
+          <div class="reader-actions">
+            <a class="btn" id="reader-direct-link" href="#" target="_blank" rel="noopener">فتح مباشرة</a>
+            <a class="btn btn-primary" id="reader-download-link" href="#" download>تنزيل</a>
+          </div>
+        </div>
+
+        <div class="pdf-reader">
+          <iframe id="pdf-frame" title="قراءة الكتاب"></iframe>
+          <p class="pdf-fallback">
+            إذا لم يظهر الكتاب، يمكنك
+            <a id="reader-fallback-link" href="#" target="_blank" rel="noopener">فتحه مباشرة</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="reader-error" id="reader-error" hidden>
+        <h1>تعذّر فتح الكتاب</h1>
+        <p>الكتاب المطلوب غير موجود في المكتبة.</p>
+        <a class="btn btn-primary" href="/library/index.html">العودة إلى المكتبة</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/nav.js"></script>
+  <script src="/js/book-reader.js"></script>
+</body>
+</html>

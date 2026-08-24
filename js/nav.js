@@ -8,6 +8,7 @@
     { id: "home", href: "/index.html", label: "الرئيسية" },
     { id: "ghareeb", href: "/ghareeb/index.html", label: "غريب القرآن" },
     { id: "darss", href: "/darss/index.html", label: "الدروس" },
+    { id: "library", href: "/library/index.html", label: "المكتبة" },
   ];
 
   var navHtml = links
@@ -36,7 +37,7 @@
 
   var footerHtml =
     '<footer class="site-footer"><div class="container">' +
-    "<p>حلقة القرآن الكريم &mdash; غريب القرآن والدروس</p>" +
+    "<p>حلقة القرآن الكريم &mdash; غريب القرآن والدروس والمكتبة</p>" +
     "</div></footer>";
 
   var headerMount = document.getElementById("site-header");

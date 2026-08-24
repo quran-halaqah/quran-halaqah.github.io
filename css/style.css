@@ -454,7 +454,8 @@ h1 {
   font-size: 3.2rem;
 }
 
-button.btn {
+.btn {
+  display: inline-block;
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 500;
@@ -467,18 +468,18 @@ button.btn {
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-button.btn:hover {
+.btn:hover {
   border-color: var(--accent);
   color: var(--accent-dark);
 }
 
-button.btn.btn-primary {
+.btn.btn-primary {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
 }
 
-button.btn.btn-primary:hover {
+.btn.btn-primary:hover {
   background: var(--accent-dark);
   border-color: var(--accent-dark);
 }
@@ -696,6 +697,180 @@ button.btn.btn-sm {
 }
 
 /* ============================
+   المكتبة وقارئ الكتب
+============================ */
+.library-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.book-shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 32px 24px;
+  align-items: start;
+}
+
+.book-card {
+  display: block;
+  max-width: 230px;
+  color: var(--text);
+}
+
+.book-cover-wrap {
+  position: relative;
+  aspect-ratio: 379 / 548;
+  overflow: hidden;
+  border-radius: 8px 12px 12px 8px;
+  background: var(--bg-alt);
+  box-shadow: 0 10px 24px rgba(46, 42, 36, 0.16),
+    -4px 0 0 rgba(255, 255, 255, 0.35) inset;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.book-cover-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.18), transparent);
+}
+
+.book-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-card:hover .book-cover-wrap,
+.book-card:focus-visible .book-cover-wrap {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(46, 42, 36, 0.22),
+    -4px 0 0 rgba(255, 255, 255, 0.35) inset;
+}
+
+.book-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+.book-details {
+  padding: 12px 2px 0;
+}
+
+.book-details h2 {
+  margin: 0 0 2px;
+  font-size: 1.05rem;
+}
+
+.book-subtitle,
+.book-meta {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.book-subtitle {
+  font-size: 0.88rem;
+}
+
+.book-meta {
+  margin-top: 5px;
+  font-size: 0.78rem;
+}
+
+.book-reader-main {
+  padding-top: 24px;
+}
+
+.reader-container {
+  max-width: 1180px;
+}
+
+.reader-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.reader-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reader-title h1 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.reader-title p {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.reader-back {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 1.25rem;
+}
+
+.reader-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pdf-reader {
+  position: relative;
+  height: 78vh;
+  min-height: 620px;
+  overflow: hidden;
+  background: #4a4a4a;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.pdf-reader iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.pdf-fallback {
+  position: absolute;
+  inset: auto 12px 12px;
+  z-index: -1;
+  margin: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.reader-error {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.reader-error p {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* ============================
    استجابة للشاشات الصغيرة
 ============================ */
 @media (max-width: 600px) {
@@ -710,5 +885,38 @@ button.btn.btn-sm {
 
   h1 {
     font-size: 1.6rem;
+  }
+
+  .book-shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 16px;
+  }
+
+  .book-card {
+    max-width: none;
+  }
+
+  .reader-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reader-actions {
+    width: 100%;
+  }
+
+  .reader-actions .btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .pdf-reader {
+    height: 72dvh;
+    min-height: 480px;
+    border-radius: 10px;
+  }
+
+  .book-reader-main {
+    padding-top: 18px;
   }
 }

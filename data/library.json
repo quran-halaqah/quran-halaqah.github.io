@@ -1,0 +1,42 @@
+{
+  "books": [
+    {
+      "id": "ghreeb-quran",
+      "title": "غريب القرآن",
+      "subtitle": "من المختصر في تفسير القرآن الكريم",
+      "author": "مركز تفسير للدراسات القرآنية",
+      "publisher": "مركز تفسير للدراسات القرآنية",
+      "cover": "/assets/library/ghreeb-quran-cover.jpg",
+      "file": "/library/books/ghreeb-quran.pdf",
+      "pages": 343
+    },
+    {
+      "id": "al-moharar",
+      "title": "المحرر في أسباب نزول القرآن",
+      "subtitle": "من خلال الكتب التسعة: دراسة الأسباب رواية ودراية",
+      "author": "خالد بن سليمان المزيني",
+      "publisher": "دار ابن الجوزي",
+      "cover": "/assets/library/al-moharar-cover.jpg",
+      "file": "/library/books/al-moharar.pdf",
+      "pages": 1202
+    },
+    {
+      "id": "lobab-al-nokol",
+      "title": "لباب النقول في أسباب النزول",
+      "subtitle": "أسباب النزول",
+      "author": "جلال الدين السيوطي",
+      "cover": "/assets/library/lobab-al-nokol-cover.jpg",
+      "file": "/library/books/lobab-al-nokol.pdf",
+      "pages": 367
+    },
+    {
+      "id": "nozhat-al-okol",
+      "title": "نزهة العقول في صحيح أسباب النزول",
+      "subtitle": "صحيح أسباب النزول",
+      "author": "عبد المنعم سيد نجم الدين بن غالب",
+      "cover": "/assets/library/nozhat-al-okol-cover.jpg",
+      "file": "/library/books/nozhat-al-okol.pdf",
+      "pages": 310
+    }
+  ]
+}
