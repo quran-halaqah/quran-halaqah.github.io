@@ -53,6 +53,36 @@
     );
   }
 
+  function tafsirUrl(surahNumber, ayahNumber) {
+    return (
+      "https://tafsir.app/ibn-aashoor/" + surahNumber + "/" + ayahNumber
+    );
+  }
+
+  function openTafsirPopup(url) {
+    var width = Math.min(880, window.screen.availWidth - 32);
+    var height = Math.min(760, window.screen.availHeight - 48);
+    var left = Math.max(0, Math.round((window.screen.availWidth - width) / 2));
+    var top = Math.max(0, Math.round((window.screen.availHeight - height) / 2));
+    var features =
+      "popup=yes,resizable=yes,scrollbars=yes,width=" +
+      width +
+      ",height=" +
+      height +
+      ",left=" +
+      left +
+      ",top=" +
+      top;
+    var popup = window.open(url, "ibn-aashoor-tafsir", features);
+
+    if (popup) {
+      popup.opener = null;
+      popup.focus();
+    } else {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  }
+
   function wordItemHtml(word, index, surah) {
     return (
       '<li class="word-item" id="word-' +
@@ -68,6 +98,14 @@
       '<span class="ayah-ref">الآية ' +
       word.ayah +
       "</span>" +
+      '<button class="tafsir-link" type="button" data-tafsir-url="' +
+      tafsirUrl(surah.number, word.ayah) +
+      '" title="فتح تفسير ابن عاشور للآية ' +
+      word.ayah +
+      '">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11a2 2 0 0 1 2 2v15a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 20.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v17a2 2 0 0 1 2-2h2.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>' +
+      '<span>تفسير ابن عاشور</span>' +
+      "</button>" +
       '<a class="correction-report" href="' +
       correctionReportUrl(surah, word, index) +
       '" target="_blank" rel="noopener noreferrer" title="الإبلاغ عن خطأ" aria-label="الإبلاغ عن خطأ في ' +
@@ -103,6 +141,12 @@
           return wordItemHtml(word, index, surah);
         })
         .join("");
+
+      listEl.addEventListener("click", function (event) {
+        var button = event.target.closest(".tafsir-link");
+        if (!button) return;
+        openTafsirPopup(button.getAttribute("data-tafsir-url"));
+      });
 
       document.getElementById("surah-search").addEventListener("input", function (e) {
         var q = normalize(e.target.value.trim());

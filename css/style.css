@@ -250,6 +250,45 @@ h1 {
   padding: 2px 12px;
 }
 
+.tafsir-link {
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  opacity: 0.72;
+  transition: color 0.15s, background-color 0.15s, opacity 0.15s;
+}
+
+.tafsir-link svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tafsir-link:hover,
+.tafsir-link:focus-visible {
+  color: var(--accent-dark);
+  background: var(--bg-alt);
+  opacity: 1;
+  outline: none;
+}
+
+.tafsir-link:focus-visible {
+  box-shadow: 0 0 0 2px rgba(47, 111, 79, 0.2);
+}
+
 .correction-report {
   width: 28px;
   height: 28px;
