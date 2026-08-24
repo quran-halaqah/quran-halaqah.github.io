@@ -53,9 +53,26 @@
     );
   }
 
-  function tafsirUrl(surahNumber, ayahNumber) {
+  function tafsirUrl(tafsir, surahNumber, ayahNumber) {
     return (
-      "https://tafsir.app/ibn-aashoor/" + surahNumber + "/" + ayahNumber
+      "https://tafsir.app/" + tafsir + "/" + surahNumber + "/" + ayahNumber
+    );
+  }
+
+  function tafsirButtonHtml(tafsir, label, surahNumber, ayahNumber) {
+    return (
+      '<button class="tafsir-link" type="button" data-tafsir-url="' +
+      tafsirUrl(tafsir, surahNumber, ayahNumber) +
+      '" title="فتح تفسير ' +
+      label +
+      " للآية " +
+      ayahNumber +
+      '">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11a2 2 0 0 1 2 2v15a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 20.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v17a2 2 0 0 1 2-2h2.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>' +
+      "<span>تفسير " +
+      label +
+      "</span>" +
+      "</button>"
     );
   }
 
@@ -73,7 +90,7 @@
       left +
       ",top=" +
       top;
-    var popup = window.open(url, "ibn-aashoor-tafsir", features);
+    var popup = window.open(url, "ghareeb-tafsir", features);
 
     if (popup) {
       popup.opener = null;
@@ -98,14 +115,8 @@
       '<span class="ayah-ref">الآية ' +
       word.ayah +
       "</span>" +
-      '<button class="tafsir-link" type="button" data-tafsir-url="' +
-      tafsirUrl(surah.number, word.ayah) +
-      '" title="فتح تفسير ابن عاشور للآية ' +
-      word.ayah +
-      '">' +
-      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11a2 2 0 0 1 2 2v15a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 20.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v17a2 2 0 0 1 2-2h2.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>' +
-      '<span>تفسير ابن عاشور</span>' +
-      "</button>" +
+      tafsirButtonHtml("saadi", "السعدي", surah.number, word.ayah) +
+      tafsirButtonHtml("ibn-aashoor", "ابن عاشور", surah.number, word.ayah) +
       '<a class="correction-report" href="' +
       correctionReportUrl(surah, word, index) +
       '" target="_blank" rel="noopener noreferrer" title="الإبلاغ عن خطأ" aria-label="الإبلاغ عن خطأ في ' +
