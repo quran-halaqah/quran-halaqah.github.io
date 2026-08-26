@@ -237,12 +237,15 @@ h1 {
 .word-meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 4px;
   margin-top: 8px;
 }
 
 .word-item .ayah-ref {
   display: inline-block;
+  flex-shrink: 0;
+  white-space: nowrap;
   font-size: 0.85rem;
   color: var(--text-muted);
   background: var(--bg-alt);
@@ -262,6 +265,7 @@ h1 {
   color: var(--text-muted);
   font-family: inherit;
   font-size: 0.78rem;
+  white-space: nowrap;
   cursor: pointer;
   opacity: 0.72;
   transition: color 0.15s, background-color 0.15s, opacity 0.15s;
@@ -957,5 +961,30 @@ button.btn.btn-sm {
 
   .book-reader-main {
     padding-top: 18px;
+  }
+
+  .word-meta {
+    gap: 2px;
+  }
+
+  .tafsir-link {
+    padding: 3px 6px;
+    font-size: 0.72rem;
+    gap: 3px;
+  }
+
+  .tafsir-link svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .word-item .ayah-ref {
+    font-size: 0.78rem;
+    padding: 2px 9px;
+  }
+
+  .correction-report {
+    width: 24px;
+    height: 24px;
   }
 }
