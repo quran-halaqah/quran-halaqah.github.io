@@ -108,17 +108,84 @@ function initSession(container, words, deckId, range, minAyah, maxAyah, onApply)
     });
   }
 
-  function isFullscreen() {
+  function isNativeFullscreen() {
     return !!(document.fullscreenElement || document.webkitFullscreenElement);
   }
 
-  function toggleFullscreen() {
-    if (isFullscreen()) {
-      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-    } else {
-      var req = container.requestFullscreen || container.webkitRequestFullscreen;
-      if (req) req.call(container);
+  function isFallbackFullscreen() {
+    return container.classList.contains('is-fallback-fullscreen');
+  }
+
+  function isFullscreen() {
+    return isNativeFullscreen() || isFallbackFullscreen();
+  }
+
+  function syncFallbackViewport() {
+    if (!isFallbackFullscreen()) return;
+    var height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    container.style.setProperty('--fc-viewport-height', Math.round(height) + 'px');
+  }
+
+  function enterFallbackFullscreen() {
+    container.classList.add('is-fallback-fullscreen');
+    document.body.classList.add('flashcards-fullscreen-open');
+    syncFallbackViewport();
+    window.addEventListener('resize', syncFallbackViewport);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncFallbackViewport);
     }
+    updateFullscreenLabel();
+  }
+
+  function exitFallbackFullscreen() {
+    container.classList.remove('is-fallback-fullscreen');
+    document.body.classList.remove('flashcards-fullscreen-open');
+    container.style.removeProperty('--fc-viewport-height');
+    window.removeEventListener('resize', syncFallbackViewport);
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener('resize', syncFallbackViewport);
+    }
+    updateFullscreenLabel();
+  }
+
+  function toggleFullscreen() {
+    if (isFallbackFullscreen()) {
+      exitFallbackFullscreen();
+      return;
+    }
+
+    if (isNativeFullscreen()) {
+      var exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if (exit) exit.call(document);
+      return;
+    }
+
+    var req = container.requestFullscreen || container.webkitRequestFullscreen;
+    var nativeSupported = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+    if (!req || !nativeSupported) {
+      enterFallbackFullscreen();
+      return;
+    }
+
+    try {
+      var request = req.call(container);
+      if (request && typeof request.catch === 'function') {
+        request.catch(enterFallbackFullscreen);
+      }
+    } catch (e) {
+      enterFallbackFullscreen();
+    }
+  }
+
+  function fullscreenButtonHtml() {
+    return '<button class="btn fc-fullscreen-btn" type="button">ملء الشاشة</button>';
+  }
+
+  function bindFullscreenButton() {
+    var btn = container.querySelector('.fc-fullscreen-btn');
+    if (!btn) return;
+    btn.addEventListener('click', toggleFullscreen);
+    updateFullscreenLabel();
   }
 
   function renderShell() {
@@ -126,7 +193,7 @@ function initSession(container, words, deckId, range, minAyah, maxAyah, onApply)
       '<div class="flashcard-stage">' +
       '<div class="flashcard-toolbar">' +
       rangeToolbarHtml() +
-      '<button class="btn" id="fc-fullscreen">ملء الشاشة</button>' +
+      fullscreenButtonHtml() +
       '</div>' +
       '<div class="flashcard is-front" id="fc-card">' +
       '<div class="fc-card-body">' +
@@ -143,27 +210,26 @@ function initSession(container, words, deckId, range, minAyah, maxAyah, onApply)
       '<div class="flashcard-progress" id="fc-progress" dir="ltr"></div>' +
       '</div>';
 
-    container.querySelector('#fc-fullscreen').addEventListener('click', toggleFullscreen);
-    document.addEventListener('fullscreenchange', updateFullscreenLabel);
-    document.addEventListener('webkitfullscreenchange', updateFullscreenLabel);
-    updateFullscreenLabel();
+    bindFullscreenButton();
     bindRangeApply();
   }
 
   function updateFullscreenLabel() {
-    var btn = container.querySelector('#fc-fullscreen');
+    var btn = container.querySelector('.fc-fullscreen-btn');
     if (!btn) return;
     btn.textContent = isFullscreen() ? 'تصغير الشاشة' : 'ملء الشاشة';
+    btn.setAttribute('aria-label', btn.textContent);
   }
 
   function renderMessage(text, buttonText, onClick) {
     container.innerHTML =
       '<div class="flashcard-stage">' +
-      '<div class="flashcard-toolbar">' + rangeToolbarHtml() + '</div>' +
+      '<div class="flashcard-toolbar">' + rangeToolbarHtml() + fullscreenButtonHtml() + '</div>' +
       '<p class="empty-state">' + text + '</p>' +
       '<button class="btn btn-primary" id="fc-action">' + buttonText + '</button>' +
       '</div>';
     container.querySelector('#fc-action').addEventListener('click', onClick);
+    bindFullscreenButton();
     bindRangeApply();
   }
 
@@ -217,7 +283,7 @@ function initSession(container, words, deckId, range, minAyah, maxAyah, onApply)
     var scoreColor = score >= 80 ? '#27ae60' : score >= 60 ? '#e67e22' : '#e74c3c';
     container.innerHTML =
       '<div class="flashcard-stage fc-end-screen">' +
-      '<div class="flashcard-toolbar">' + rangeToolbarHtml() + '</div>' +
+      '<div class="flashcard-toolbar">' + rangeToolbarHtml() + fullscreenButtonHtml() + '</div>' +
       '<div class="fc-score" style="color:' + scoreColor + '">' + score + '%</div>' +
       '<p class="fc-score-label">نتيجة الجلسة</p>' +
       '<p class="fc-score-msg">' + msg + '</p>' +
@@ -231,6 +297,7 @@ function initSession(container, words, deckId, range, minAyah, maxAyah, onApply)
       renderCard();
       bindCardEvents();
     });
+    bindFullscreenButton();
     bindRangeApply();
   }
 
@@ -263,6 +330,39 @@ function initSession(container, words, deckId, range, minAyah, maxAyah, onApply)
         advance(parseInt(btn.getAttribute('data-grade'), 10));
       });
     });
+  }
+
+  if (typeof container._fcSessionCleanup === 'function') {
+    container._fcSessionCleanup();
+  }
+
+  function handleFullscreenChange() {
+    updateFullscreenLabel();
+  }
+
+  function handleFullscreenKeydown(event) {
+    if (event.key === 'Escape' && isFallbackFullscreen()) exitFallbackFullscreen();
+  }
+
+  document.addEventListener('fullscreenchange', handleFullscreenChange);
+  document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+  document.addEventListener('keydown', handleFullscreenKeydown);
+  container._fcSessionCleanup = function () {
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.removeEventListener('keydown', handleFullscreenKeydown);
+    window.removeEventListener('resize', syncFallbackViewport);
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener('resize', syncFallbackViewport);
+    }
+  };
+
+  if (isFallbackFullscreen()) {
+    syncFallbackViewport();
+    window.addEventListener('resize', syncFallbackViewport);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncFallbackViewport);
+    }
   }
 
   if (!words || !words.length) {
