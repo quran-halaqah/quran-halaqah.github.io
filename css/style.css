@@ -1101,8 +1101,17 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
 }
 
 .word-table .meaning { padding-top: 16px; }
+.word-table .word-entry > th, .word-table .word-entry > td {
+  border-bottom: 0;
+  padding-bottom: 4px;
+}
+.word-table .word-actions-row > td {
+  padding-top: 0;
+  padding-inline-start: calc(30% + 80px);
+}
 .word-table tbody tr:hover { background: var(--surface); }
 .word-table tr:target { background: var(--bg-alt); outline: 2px solid var(--gold); outline-offset: -2px; }
+.word-table tr:target + .word-actions-row { background: var(--bg-alt); }
 .word-table tr { scroll-margin-top: 160px; }
 .word-actions { margin-top: 6px; }
 .word-actions .tafsir-link { opacity: 1; padding-inline: 0; margin-inline-end: 10px; }
@@ -1153,6 +1162,22 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
   .word-table .word { font-size: 1.2rem; }
   .word-table .meaning { font-size: 0.93rem; }
   .word-table .verse-cell { font-size: 0.8rem; }
+  .word-table .word-actions-row > td { padding: 0 8px 10px; }
+  .word-actions-row .word-actions {
+    margin: 0;
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+  .word-actions-row .tafsir-link {
+    font-size: 0.65rem;
+    gap: 4px;
+    margin: 0;
+    padding: 4px 0;
+    min-height: 28px;
+  }
+  .word-actions-row .tafsir-link svg { width: 11px; height: 11px; }
+  .word-actions-row .correction-report { width: 28px; height: 28px; flex-shrink: 0; }
+  .word-actions-row .correction-report svg { width: 12px; height: 12px; }
   .surah-directory { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
   .surah-link { gap: 8px; flex-wrap: wrap; }
   .surah-word-count { display: none; }

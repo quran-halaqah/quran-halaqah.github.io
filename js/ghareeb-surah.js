@@ -105,7 +105,7 @@
 
   function wordItemHtml(word, index, surah) {
     return (
-      '<tr id="word-' +
+      '<tr class="word-entry" id="word-' +
       (index + 1) +
       '">' +
       '<td class="verse-cell"><span class="sr-only">الآية </span>' + word.ayah + '</td>' +
@@ -114,6 +114,7 @@
       "</th>" +
       '<td class="meaning">' +
       word.meaning +
+      '</td></tr><tr class="word-actions-row"><td colspan="3">' +
       '<div class="word-meta word-actions">' +
       tafsirButtonHtml("saadi", "السعدي", surah.number, word.ayah) +
       tafsirButtonHtml("ibn-aashoor", "ابن عاشور", surah.number, word.ayah) +
@@ -156,7 +157,7 @@
       var search = document.getElementById("surah-search");
       var count = document.getElementById("word-count");
       var empty = document.getElementById("word-empty");
-      var rows = Array.from(listEl.rows);
+      var rows = Array.from(listEl.querySelectorAll(".word-entry"));
       var searchable = words.map(function (word) {
         // Match both Uthmani spelling and a typed full alif, e.g. الْعَٰلَمِينَ / العالمين.
         return normalize(word.word + " " + word.word.replace(/\u0670/g, "ا") + " " + word.meaning);
@@ -169,6 +170,7 @@
         rows.forEach(function (row, i) {
           var match = !q || searchable[i].indexOf(q) !== -1 || String(words[i].ayah) === q;
           row.hidden = !match;
+          row.nextElementSibling.hidden = !match;
           if (match) matches++;
         });
         count.textContent = q ? matches + " من " + words.length + " كلمة" : words.length + " كلمة";
