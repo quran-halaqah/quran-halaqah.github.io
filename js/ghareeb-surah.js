@@ -114,18 +114,19 @@
       "</th>" +
       '<td class="meaning">' +
       word.meaning +
-      '</td></tr><tr class="word-actions-row"><td colspan="3">' +
-      '<div class="word-meta word-actions"><div class="word-tafsirs">' +
-      tafsirButtonHtml("saadi", "السعدي", surah.number, word.ayah) +
-      tafsirButtonHtml("ibn-aashoor", "ابن عاشور", surah.number, word.ayah) +
-      '</div>' +
+      '</td></tr><tr class="word-actions-row">' +
+      '<td class="word-actions-spacer" aria-hidden="true"></td>' +
+      '<td class="word-report-cell">' +
       '<a class="correction-report" href="' +
       correctionReportUrl(surah, word, index) +
       '" target="_blank" rel="noopener noreferrer" title="الإبلاغ عن خطأ" aria-label="الإبلاغ عن خطأ في ' +
       word.word +
       '">' +
       '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 21V4m0 1h11l-2 3 2 3H5"/></svg>' +
-      "</a>" +
+      '</a></td>' +
+      '<td class="word-tafsir-cell"><div class="word-tafsirs">' +
+      tafsirButtonHtml("saadi", "السعدي", surah.number, word.ayah) +
+      tafsirButtonHtml("ibn-aashoor", "ابن عاشور", surah.number, word.ayah) +
       "</div></td>" +
       "</tr>"
     );

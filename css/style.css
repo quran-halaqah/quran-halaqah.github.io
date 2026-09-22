@@ -1113,25 +1113,15 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
 .word-table tr:target { background: var(--bg-alt); outline: 2px solid var(--gold); outline-offset: -2px; }
 .word-table tr:target + .word-actions-row { background: var(--bg-alt); }
 .word-table tr { scroll-margin-top: 160px; }
-.word-actions {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  width: min(100%, 400px);
-  margin: 6px auto 0;
-  gap: 16px;
-}
 .word-tafsirs {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.word-actions .tafsir-link { opacity: 1; padding-inline: 0; }
+.word-tafsirs .tafsir-link { opacity: 1; padding-inline: 0; }
+.word-report-cell { text-align: start !important; }
+.word-tafsir-cell { text-align: start !important; }
 .word-actions-row .correction-report {
-  grid-column: 1;
-  grid-row: 1;
   width: 44px;
   height: 44px;
   opacity: 1;
@@ -1183,9 +1173,6 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
   .word-table .meaning { font-size: 1.12rem; }
   .word-table .verse-cell { font-size: 0.8rem; }
   .word-table .word-actions-row > td { padding: 0 8px 10px; }
-  .word-actions-row .word-actions {
-    margin: 0;
-  }
   .word-actions-row .tafsir-link {
     font-size: 0.65rem;
     gap: 4px;
