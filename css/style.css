@@ -1100,8 +1100,8 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
   padding-top: 18px;
 }
 
-.word-table .word { font-size: 1.6rem; }
-.word-table .meaning { padding-top: 16px; font-size: 1.08rem; }
+.word-table .word { font-size: 1.8rem; }
+.word-table .meaning { padding-top: 16px; font-size: 1.18rem; }
 .word-table .word-entry > th, .word-table .word-entry > td {
   border-bottom: 0;
   padding-bottom: 4px;
@@ -1113,9 +1113,28 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
 .word-table tr:target { background: var(--bg-alt); outline: 2px solid var(--gold); outline-offset: -2px; }
 .word-table tr:target + .word-actions-row { background: var(--bg-alt); }
 .word-table tr { scroll-margin-top: 160px; }
-.word-actions { margin-top: 6px; justify-content: center; gap: 12px; }
+.word-actions {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  margin-top: 6px;
+  gap: 16px;
+}
+.word-tafsirs {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .word-actions .tafsir-link { opacity: 1; padding-inline: 0; }
-.word-actions .correction-report { opacity: 1; }
+.word-actions-row .correction-report {
+  grid-column: 1;
+  grid-row: 1;
+  width: 44px;
+  height: 44px;
+  opacity: 1;
+}
 
 .review-intro { color: var(--text-muted); margin: 0 0 24px; font-size: 0.95rem; }
 .review-panel .flashcard-toolbar, .review-panel .flashcard { max-width: 600px; }
@@ -1159,14 +1178,12 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
   .word-table .verse-column { width: 40px; }
   .word-table .word-column { width: 31%; }
   .word-table th, .word-table td { padding-inline: 8px; }
-  .word-table .word { font-size: 1.35rem; }
-  .word-table .meaning { font-size: 1.02rem; }
+  .word-table .word { font-size: 1.55rem; }
+  .word-table .meaning { font-size: 1.12rem; }
   .word-table .verse-cell { font-size: 0.8rem; }
   .word-table .word-actions-row > td { padding: 0 8px 10px; }
   .word-actions-row .word-actions {
     margin: 0;
-    gap: 12px;
-    flex-wrap: nowrap;
   }
   .word-actions-row .tafsir-link {
     font-size: 0.65rem;
@@ -1176,7 +1193,6 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
     min-height: 28px;
   }
   .word-actions-row .tafsir-link svg { width: 11px; height: 11px; }
-  .word-actions-row .correction-report { width: 28px; height: 28px; flex-shrink: 0; }
   .word-actions-row .correction-report svg { width: 12px; height: 12px; }
   .surah-directory { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
   .surah-link { gap: 8px; flex-wrap: wrap; }

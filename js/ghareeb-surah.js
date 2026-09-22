@@ -115,9 +115,10 @@
       '<td class="meaning">' +
       word.meaning +
       '</td></tr><tr class="word-actions-row"><td colspan="3">' +
-      '<div class="word-meta word-actions">' +
+      '<div class="word-meta word-actions"><div class="word-tafsirs">' +
       tafsirButtonHtml("saadi", "السعدي", surah.number, word.ayah) +
       tafsirButtonHtml("ibn-aashoor", "ابن عاشور", surah.number, word.ayah) +
+      '</div>' +
       '<a class="correction-report" href="' +
       correctionReportUrl(surah, word, index) +
       '" target="_blank" rel="noopener noreferrer" title="الإبلاغ عن خطأ" aria-label="الإبلاغ عن خطأ في ' +
