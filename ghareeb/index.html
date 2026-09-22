@@ -10,7 +10,7 @@
     href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="/css/style.css?v=20260921-dark-theme" />
+  <link rel="stylesheet" href="/css/style.css?v=20260922-study" />
 </head>
 <body data-page="ghareeb">
   <div id="site-header"></div>
@@ -24,15 +24,17 @@
       </p>
 
       <div class="search-box">
+        <label class="sr-only" for="ghareeb-search">ابحث عن سورة أو كلمة أو معنى</label>
         <input
           type="search"
           id="ghareeb-search"
-          placeholder="ابحث عن سورة أو كلمة..."
+          placeholder="ابحث عن سورة، كلمة، أو معنى…"
           autocomplete="off"
         />
       </div>
 
-      <div class="card-grid" id="surah-grid"></div>
+      <p class="word-count" id="index-count" role="status" aria-live="polite">جارٍ التحميل…</p>
+      <div class="surah-directory" id="surah-grid"></div>
 
       <div id="word-results"></div>
     </div>
@@ -40,6 +42,6 @@
 
   <div id="site-footer"></div>
   <script src="/js/nav.js?v=20260921-dark-theme"></script>
-  <script src="/js/ghareeb-index.js"></script>
+  <script src="/js/ghareeb-index.js?v=20260922-study"></script>
 </body>
 </html>

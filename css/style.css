@@ -1004,20 +1004,195 @@ button.btn.btn-sm {
 /* ============================
    استجابة للشاشات الصغيرة
 ============================ */
+/* تصفّح الكلمات والمراجعة */
+[hidden] { display: none !important; }
+
+.study-back {
+  display: inline-block;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+body[data-surah] h1 { margin-top: 16px; }
+body[data-surah] .page-intro { margin-top: 8px; margin-bottom: 24px; }
+
+.study-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.study-tab {
+  padding: 12px 2px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  font: inherit;
+  font-weight: 500;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.study-tab[aria-selected="true"] {
+  border-bottom-color: var(--accent);
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.study-tab:focus-visible,
+.word-details summary:focus-visible,
+.surah-link:focus-visible,
+.word-result:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.word-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.word-toolbar .search-box { flex: 1; margin: 0; }
+body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px; }
+.word-count { color: var(--text-muted); font-size: 0.85rem; flex-shrink: 0; }
+
+.word-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: start;
+}
+
+.word-table .verse-column { width: 64px; }
+.word-table .word-column { width: 30%; }
+.word-table th, .word-table td {
+  padding: 12px 16px;
+  text-align: start;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+
+.word-table thead th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: var(--bg-alt);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.word-table .word, .word-result .word {
+  font-family: "Amiri", serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+  color: var(--accent-dark);
+  line-height: 1.9;
+}
+
+.word-table .verse-cell {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  padding-top: 18px;
+}
+
+.word-table .meaning { padding-top: 16px; }
+.word-table tbody tr:hover { background: var(--surface); }
+.word-table tr:target { background: var(--bg-alt); outline: 2px solid var(--gold); outline-offset: -2px; }
+.word-table tr { scroll-margin-top: 160px; }
+.word-details { margin-top: 6px; }
+.word-details summary {
+  width: fit-content;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 0;
+}
+.word-details .word-meta { margin-top: 0; }
+.word-details .tafsir-link { opacity: 1; padding-inline: 0; margin-inline-end: 10px; }
+.word-details .correction-report { opacity: 1; }
+
+.review-intro { color: var(--text-muted); margin: 0 0 24px; font-size: 0.95rem; }
+.review-panel .flashcard-toolbar, .review-panel .flashcard { max-width: 600px; }
+.review-panel .flashcard { min-height: 280px; box-shadow: none; }
+
+.surah-directory {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 28px;
+}
+.surah-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 4px;
+  border-bottom: 1px solid var(--border);
+}
+.surah-link:hover, .word-result:hover { background: var(--bg-alt); }
+.surah-number { font-size: 0.8rem; color: var(--text-muted); width: 26px; font-variant-numeric: tabular-nums; }
+.surah-name { font-weight: 500; }
+.surah-word-count { margin-inline-start: auto; color: var(--text-muted); font-size: 0.75rem; white-space: nowrap; }
+.word-results-list { border-top: 1px solid var(--border); }
+.word-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+.result-meaning { color: var(--text); }
+.result-reference { color: var(--text-muted); font-size: 0.8rem; text-align: end; }
+
+@media (max-width: 600px) {
+  body[data-page="ghareeb"] main { padding-top: 24px; }
+  .study-tabs { gap: 24px; margin-bottom: 18px; }
+  .study-tab { font-size: 0.95rem; }
+  .word-toolbar { flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .word-toolbar .search-box { flex-basis: 100%; }
+  .word-table .verse-column { width: 40px; }
+  .word-table .word-column { width: 31%; }
+  .word-table th, .word-table td { padding-inline: 8px; }
+  .word-table .word { font-size: 1.2rem; }
+  .word-table .meaning { font-size: 0.93rem; }
+  .word-table .verse-cell { font-size: 0.8rem; }
+  .word-details summary { font-size: 0.7rem; }
+  .surah-directory { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+  .surah-link { gap: 8px; flex-wrap: wrap; }
+  .surah-word-count { display: none; }
+  .word-result { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 4px 12px; padding-inline: 4px; }
+  .result-reference { grid-column: 2; text-align: start; }
+}
+
 @media (max-width: 600px) {
   .site-header .container {
-    flex-direction: column;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 40px;
+    gap: 6px 12px;
+    padding-top: 10px;
+    padding-bottom: 6px;
   }
 
   .header-controls {
-    width: 100%;
-    justify-content: space-between;
-    gap: 12px;
+    display: contents;
   }
 
+  .site-title { font-size: 1.2rem; }
+  .theme-toggle { grid-column: 2; grid-row: 1; }
+
   nav.site-nav {
-    gap: 16px;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.9rem;
   }
 
   h1 {

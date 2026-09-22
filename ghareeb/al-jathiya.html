@@ -10,35 +10,54 @@
     href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="/css/style.css?v=20260921-dark-theme" />
+  <link rel="stylesheet" href="/css/style.css?v=20260922-study" />
 </head>
 <body data-page="ghareeb" data-surah="al-jathiya">
   <div id="site-header"></div>
 
   <main>
     <div class="container">
+      <a class="study-back" href="/ghareeb/index.html">→ جميع السور</a>
       <h1>سورة الجاثية</h1>
       <p class="page-intro">
         الكلمات الغريبة في سورة الجاثية مع معانيها.
       </p>
 
-      <p><a href="/ghareeb/index.html">&larr; الرجوع إلى كل السور</a></p>
+      <div class="study-tabs" role="tablist" aria-label="طريقة الدراسة">
+        <button class="study-tab" id="words-tab" type="button" role="tab" aria-selected="true" aria-controls="words-panel" disabled>الكلمات والمعاني</button>
+        <button class="study-tab" id="review-tab" type="button" role="tab" aria-selected="false" aria-controls="review-panel" tabindex="-1" disabled>بطاقات المراجعة</button>
+      </div>
 
-      <section class="flashcards">
-        <h2>بطاقات المراجعة</h2>
-        <p class="page-intro">
-          اضغط على البطاقة لإظهار المعنى، وانتقل بين الكلمات للمراجعة.
-        </p>
-        <div id="flashcard-container"></div>
+      <section id="words-panel" role="tabpanel" aria-labelledby="words-tab">
+        <div class="word-toolbar">
+          <div class="search-box">
+            <label class="sr-only" for="surah-search">ابحث عن كلمة أو معنى أو رقم آية</label>
+            <input type="search" id="surah-search" placeholder="ابحث عن كلمة، معنى، أو رقم آية…" autocomplete="off" disabled />
+          </div>
+          <span class="word-count" id="word-count" role="status" aria-live="polite">جارٍ التحميل…</span>
+        </div>
+        <table class="word-table">
+          <caption class="sr-only">كلمات السورة ومعانيها مرتبة حسب الآية</caption>
+          <colgroup><col class="verse-column" /><col class="word-column" /><col /></colgroup>
+          <thead><tr><th scope="col">الآية</th><th scope="col">الكلمة</th><th scope="col">المعنى</th></tr></thead>
+          <tbody id="word-list"><tr><td colspan="3" class="empty-state">جارٍ تحميل الكلمات…</td></tr></tbody>
+        </table>
+        <div class="empty-state" id="word-empty" hidden>
+          <p>لا توجد كلمات مطابقة. جرّب كلمة أخرى أو رقم آية.</p>
+          <button class="btn" type="button" id="clear-search">مسح البحث</button>
+        </div>
       </section>
 
-      <ul class="word-list" id="word-list"></ul>
+      <section class="review-panel" id="review-panel" role="tabpanel" aria-labelledby="review-tab" hidden>
+        <p class="review-intro">استرجع المعنى، ثم اضغط على البطاقة لإظهار الجواب وتقييم تذكّرك.</p>
+        <div id="flashcard-container"></div>
+      </section>
     </div>
   </main>
 
   <div id="site-footer"></div>
   <script src="/js/nav.js?v=20260921-dark-theme"></script>
   <script src="/js/flashcards.js?v=20260921-dark-theme"></script>
-  <script src="/js/ghareeb-surah.js"></script>
+  <script src="/js/ghareeb-surah.js?v=20260922-study"></script>
 </body>
 </html>

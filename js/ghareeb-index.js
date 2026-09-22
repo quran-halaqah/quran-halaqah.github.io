@@ -6,44 +6,39 @@
 
   // إزالة التشكيل لتسهيل البحث (مثل "الرحمن" يطابق "الرَّحْمٰن")
   function normalize(text) {
-    return (text || "").replace(/[ً-ٰٟ]/g, "");
+    return (text || "").replace(/[\u064b-\u065f\u0670\u06d6-\u06edـ]/g, "").replace(/[أإآٱ]/g, "ا");
   }
 
   function surahCardHtml(surah) {
     return (
-      '<a class="card" href="/ghareeb/' +
+      '<a class="surah-link" href="/ghareeb/' +
       surah.page +
       '">' +
-      "<h3>" +
+      '<span class="surah-number">' + surah.number + '</span><span class="surah-name">' +
       surah.name_ar +
-      "</h3>" +
-      "<p>السورة رقم " +
-      surah.number +
-      " &bull; " +
+      '</span><span class="surah-word-count">' +
       surah.words.length +
-      " كلمة</p>" +
+      " كلمة</span>" +
       "</a>"
     );
   }
 
   function wordResultHtml(surah, word, index) {
     return (
-      '<a class="card" href="/ghareeb/' +
+      '<a class="word-result" href="/ghareeb/' +
       surah.page +
       "#word-" +
       (index + 1) +
       '">' +
-      '<h3 class="word">' +
+      '<span class="word">' +
       word.word +
-      "</h3>" +
-      "<p>" +
+      '</span><span class="result-meaning">' +
       word.meaning +
-      "</p>" +
-      "<p>سورة " +
+      '</span><span class="result-reference">سورة ' +
       surah.name_ar +
       " &bull; الآية " +
       word.ayah +
-      "</p>" +
+      "</span>" +
       "</a>"
     );
   }
@@ -65,6 +60,7 @@
         surah.words.forEach(function (word, index) {
           if (
             normalize(word.word).indexOf(q) !== -1 ||
+            normalize(word.word.replace(/\u0670/g, "ا")).indexOf(q) !== -1 ||
             normalize(word.meaning).indexOf(q) !== -1
           ) {
             wordMatches.push({ surah: surah, word: word, index: index });
@@ -76,7 +72,7 @@
     if (wordMatches.length) {
       resultsBox.innerHTML =
         "<h2>كلمات مطابقة</h2>" +
-        '<div class="card-grid">' +
+        '<div class="word-results-list">' +
         wordMatches
           .map(function (m) {
             return wordResultHtml(m.surah, m.word, m.index);
@@ -88,17 +84,25 @@
     }
 
     if (!matchingSurahs.length && !wordMatches.length && q) {
-      grid.innerHTML = '<p class="empty-state">لا توجد نتائج لـ "' + q + '"</p>';
+      grid.innerHTML = '<p class="empty-state">لا توجد نتائج. جرّب اسم سورة أو كلمة أخرى.</p>';
     }
+    document.getElementById("index-count").textContent = q
+      ? matchingSurahs.length + " سورة · " + wordMatches.length + " كلمة مطابقة"
+      : data.surahs.length + " سورة";
   }
 
   fetch("/data/ghareeb.json")
     .then(function (res) {
+      if (!res.ok) throw new Error("Unable to load index");
       return res.json();
     })
     .then(function (json) {
       data = json;
-      render("");
+      render(searchInput.value);
+    })
+    .catch(function () {
+      grid.innerHTML = '<p class="empty-state">تعذّر تحميل السور. أعد تحميل الصفحة للمحاولة مجددًا.</p>';
+      document.getElementById("index-count").textContent = "تعذّر التحميل";
     });
 
   searchInput.addEventListener("input", function (e) {

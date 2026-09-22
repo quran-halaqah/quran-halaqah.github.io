@@ -4,7 +4,10 @@
   var flashcardContainer = document.getElementById("flashcard-container");
 
   function normalize(text) {
-    return (text || "").replace(/[ً-ٰٟ]/g, "");
+    return (text || "").replace(/[\u064b-\u065f\u0670\u06d6-\u06edـ]/g, "")
+      .replace(/[أإآٱ]/g, "ا")
+      .replace(/[٠-٩]/g, function (digit) { return digit.charCodeAt(0) - 1632; })
+      .replace(/[۰-۹]/g, function (digit) { return digit.charCodeAt(0) - 1776; });
   }
 
   function correctionReportUrl(surah, word, index) {
@@ -102,19 +105,16 @@
 
   function wordItemHtml(word, index, surah) {
     return (
-      '<li class="word-item" id="word-' +
+      '<tr id="word-' +
       (index + 1) +
       '">' +
-      '<div class="word">' +
+      '<td class="verse-cell"><span class="sr-only">الآية </span>' + word.ayah + '</td>' +
+      '<th scope="row" class="word">' +
       word.word +
-      "</div>" +
-      '<div class="meaning">' +
+      "</th>" +
+      '<td class="meaning">' +
       word.meaning +
-      "</div>" +
-      '<div class="word-meta">' +
-      '<span class="ayah-ref">الآية ' +
-      word.ayah +
-      "</span>" +
+      '<details class="word-details"><summary>التفسير والملاحظات<span class="sr-only">: ' + word.word + '</span></summary><div class="word-meta">' +
       tafsirButtonHtml("saadi", "السعدي", surah.number, word.ayah) +
       tafsirButtonHtml("ibn-aashoor", "ابن عاشور", surah.number, word.ayah) +
       '<a class="correction-report" href="' +
@@ -124,27 +124,21 @@
       '">' +
       '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 21V4m0 1h11l-2 3 2 3H5"/></svg>' +
       "</a>" +
-      "</div>" +
-      "</li>"
+      "</div></details></td>" +
+      "</tr>"
     );
   }
 
   fetch("/data/ghareeb.json")
     .then(function (res) {
+      if (!res.ok) throw new Error("Unable to load words");
       return res.json();
     })
     .then(function (data) {
       var surah = data.surahs.find(function (s) {
         return s.id === surahId;
       });
-      if (!surah) return;
-
-      // Inject search box before flashcards section
-      var searchBox = document.createElement("div");
-      searchBox.className = "search-box";
-      searchBox.innerHTML =
-        '<input type="search" id="surah-search" placeholder="ابحث في كلمات السورة..." autocomplete="off" />';
-      listEl.parentNode.insertBefore(searchBox, listEl);
+      if (!surah) throw new Error("Surah not found");
 
       var words = surah.words;
       listEl.innerHTML = words
@@ -159,35 +153,82 @@
         openTafsirPopup(button.getAttribute("data-tafsir-url"));
       });
 
-      document.getElementById("surah-search").addEventListener("input", function (e) {
-        var q = normalize(e.target.value.trim());
-        if (!q) {
-          listEl.innerHTML = words
-            .map(function (word, index) {
-              return wordItemHtml(word, index, surah);
-            })
-            .join("");
-          return;
+      var search = document.getElementById("surah-search");
+      var count = document.getElementById("word-count");
+      var empty = document.getElementById("word-empty");
+      var rows = Array.from(listEl.rows);
+      var searchable = words.map(function (word) {
+        // Match both Uthmani spelling and a typed full alif, e.g. الْعَٰلَمِينَ / العالمين.
+        return normalize(word.word + " " + word.word.replace(/\u0670/g, "ا") + " " + word.meaning);
+      });
+      search.disabled = false;
+
+      function filterWords() {
+        var q = normalize(search.value.trim());
+        var matches = 0;
+        rows.forEach(function (row, i) {
+          var match = !q || searchable[i].indexOf(q) !== -1 || String(words[i].ayah) === q;
+          row.hidden = !match;
+          if (match) matches++;
+        });
+        count.textContent = q ? matches + " من " + words.length + " كلمة" : words.length + " كلمة";
+        empty.hidden = matches > 0;
+      }
+
+      search.addEventListener("input", filterWords);
+      document.getElementById("clear-search").addEventListener("click", function () {
+        search.value = "";
+        filterWords();
+        search.focus();
+      });
+      filterWords();
+
+      var tabs = Array.from(document.querySelectorAll(".study-tab"));
+      var reviewStarted = false;
+      function selectTab(tab) {
+        tabs.forEach(function (item) {
+          var selected = item === tab;
+          item.setAttribute("aria-selected", String(selected));
+          item.tabIndex = selected ? 0 : -1;
+          document.getElementById(item.getAttribute("aria-controls")).hidden = !selected;
+        });
+        if (tab.id === "review-tab" && !reviewStarted) {
+          initFlashcards(flashcardContainer, words, surah.id);
+          reviewStarted = true;
         }
-        var filtered = words
-          .map(function (word, index) {
-            return { word: word, index: index };
-          })
-          .filter(function (item) {
-            return (
-              normalize(item.word.word).indexOf(q) !== -1 ||
-              normalize(item.word.meaning).indexOf(q) !== -1
-            );
-          });
-        listEl.innerHTML = filtered.length
-          ? filtered
-              .map(function (item) {
-                return wordItemHtml(item.word, item.index, surah);
-              })
-              .join("")
-          : '<li class="word-item"><p class="empty-state">لا توجد نتائج.</p></li>';
+      }
+      tabs.forEach(function (tab, index) {
+        tab.disabled = false;
+        tab.addEventListener("click", function () { selectTab(tab); });
+        tab.addEventListener("keydown", function (event) {
+          var next;
+          if (event.key === "ArrowLeft") next = (index + 1) % tabs.length;
+          if (event.key === "ArrowRight") next = (index + tabs.length - 1) % tabs.length;
+          if (event.key === "Home") next = 0;
+          if (event.key === "End") next = tabs.length - 1;
+          if (next === undefined) return;
+          event.preventDefault();
+          tabs[next].focus();
+          selectTab(tabs[next]);
+        });
       });
 
-      initFlashcards(flashcardContainer, words, surah.id);
+      // Search results and correction reports keep their original entry links.
+      function revealLinkedWord() {
+        if (!/^#word-\d+$/.test(window.location.hash)) return;
+        var row = document.getElementById(window.location.hash.slice(1));
+        if (!row) return;
+        selectTab(tabs[0]);
+        search.value = "";
+        filterWords();
+        row.scrollIntoView({ block: "center" });
+      }
+      window.addEventListener("hashchange", revealLinkedWord);
+      revealLinkedWord();
+    })
+    .catch(function () {
+      listEl.innerHTML = '<tr><td colspan="3" class="empty-state">تعذّر تحميل الكلمات. <button class="btn" type="button" id="retry-words">إعادة المحاولة</button></td></tr>';
+      document.getElementById("word-count").textContent = "تعذّر التحميل";
+      document.getElementById("retry-words").addEventListener("click", function () { window.location.reload(); });
     });
 })();
