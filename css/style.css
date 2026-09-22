@@ -1116,7 +1116,8 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
 .word-actions {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr);
-  margin-top: 6px;
+  width: min(100%, 400px);
+  margin: 6px auto 0;
   gap: 16px;
 }
 .word-tafsirs {
