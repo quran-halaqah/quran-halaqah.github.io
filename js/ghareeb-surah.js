@@ -114,7 +114,7 @@
       "</th>" +
       '<td class="meaning">' +
       word.meaning +
-      '<details class="word-details"><summary>التفسير والملاحظات<span class="sr-only">: ' + word.word + '</span></summary><div class="word-meta">' +
+      '<div class="word-meta word-actions">' +
       tafsirButtonHtml("saadi", "السعدي", surah.number, word.ayah) +
       tafsirButtonHtml("ibn-aashoor", "ابن عاشور", surah.number, word.ayah) +
       '<a class="correction-report" href="' +
@@ -124,7 +124,7 @@
       '">' +
       '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 21V4m0 1h11l-2 3 2 3H5"/></svg>' +
       "</a>" +
-      "</div></details></td>" +
+      "</div></td>" +
       "</tr>"
     );
   }

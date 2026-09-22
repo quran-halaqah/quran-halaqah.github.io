@@ -1042,7 +1042,6 @@ body[data-surah] .page-intro { margin-top: 8px; margin-bottom: 24px; }
 }
 
 .study-tab:focus-visible,
-.word-details summary:focus-visible,
 .surah-link:focus-visible,
 .word-result:focus-visible {
   outline: 2px solid var(--accent);
@@ -1105,17 +1104,9 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
 .word-table tbody tr:hover { background: var(--surface); }
 .word-table tr:target { background: var(--bg-alt); outline: 2px solid var(--gold); outline-offset: -2px; }
 .word-table tr { scroll-margin-top: 160px; }
-.word-details { margin-top: 6px; }
-.word-details summary {
-  width: fit-content;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding: 4px 0;
-}
-.word-details .word-meta { margin-top: 0; }
-.word-details .tafsir-link { opacity: 1; padding-inline: 0; margin-inline-end: 10px; }
-.word-details .correction-report { opacity: 1; }
+.word-actions { margin-top: 6px; }
+.word-actions .tafsir-link { opacity: 1; padding-inline: 0; margin-inline-end: 10px; }
+.word-actions .correction-report { opacity: 1; }
 
 .review-intro { color: var(--text-muted); margin: 0 0 24px; font-size: 0.95rem; }
 .review-panel .flashcard-toolbar, .review-panel .flashcard { max-width: 600px; }
@@ -1162,7 +1153,6 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
   .word-table .word { font-size: 1.2rem; }
   .word-table .meaning { font-size: 0.93rem; }
   .word-table .verse-cell { font-size: 0.8rem; }
-  .word-details summary { font-size: 0.7rem; }
   .surah-directory { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
   .surah-link { gap: 8px; flex-wrap: wrap; }
   .surah-word-count { display: none; }
