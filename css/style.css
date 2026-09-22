@@ -1100,21 +1100,21 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
   padding-top: 18px;
 }
 
-.word-table .meaning { padding-top: 16px; }
+.word-table .word { font-size: 1.6rem; }
+.word-table .meaning { padding-top: 16px; font-size: 1.08rem; }
 .word-table .word-entry > th, .word-table .word-entry > td {
   border-bottom: 0;
   padding-bottom: 4px;
 }
 .word-table .word-actions-row > td {
   padding-top: 0;
-  padding-inline-start: calc(30% + 80px);
 }
 .word-table tbody tr:hover { background: var(--surface); }
 .word-table tr:target { background: var(--bg-alt); outline: 2px solid var(--gold); outline-offset: -2px; }
 .word-table tr:target + .word-actions-row { background: var(--bg-alt); }
 .word-table tr { scroll-margin-top: 160px; }
-.word-actions { margin-top: 6px; }
-.word-actions .tafsir-link { opacity: 1; padding-inline: 0; margin-inline-end: 10px; }
+.word-actions { margin-top: 6px; justify-content: center; gap: 12px; }
+.word-actions .tafsir-link { opacity: 1; padding-inline: 0; }
 .word-actions .correction-report { opacity: 1; }
 
 .review-intro { color: var(--text-muted); margin: 0 0 24px; font-size: 0.95rem; }
@@ -1159,8 +1159,8 @@ body[data-page="ghareeb"] .search-box input[type="search"] { border-radius: 10px
   .word-table .verse-column { width: 40px; }
   .word-table .word-column { width: 31%; }
   .word-table th, .word-table td { padding-inline: 8px; }
-  .word-table .word { font-size: 1.2rem; }
-  .word-table .meaning { font-size: 0.93rem; }
+  .word-table .word { font-size: 1.35rem; }
+  .word-table .meaning { font-size: 1.02rem; }
   .word-table .verse-cell { font-size: 0.8rem; }
   .word-table .word-actions-row > td { padding: 0 8px 10px; }
   .word-actions-row .word-actions {
